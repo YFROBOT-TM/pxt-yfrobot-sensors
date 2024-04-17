@@ -119,6 +119,8 @@ enum YFADOutputModule {
     FAN = 0x2,
     //% blockId="YFDOM_VIBRATION_MOTOR" block="VIBRATION_MOTOR"
     VIBRATION_MOTOR = 0x4,
+    //% blockId="YFDOM_PUMP" block="PUMP"
+    PUMP = 0x5,
 }
 
 enum YFDigitalOutputModule {
@@ -132,6 +134,8 @@ enum YFDigitalOutputModule {
     RELAY = 0x3,
     //% blockId="YFDOM_VIBRATION_MOTOR" block="VIBRATION_MOTOR"
     VIBRATION_MOTOR = 0x4,
+    //% blockId="YFDOM_PUMP" block="PUMP"
+    PUMP = 0x5,
 }
 
 /*************************  Output - OTP Fixed voice list  *************************/

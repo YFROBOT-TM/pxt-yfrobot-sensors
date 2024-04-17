@@ -1,6 +1,6 @@
 {
     "name": "YFSENSORS",
-    "version": "0.1.5",
+    "version": "0.1.8",
     "description": "This is a MakeCode graphics programming extension for YFROBOT's sensors(lego) module.",
     "license": "MIT",
     "dependencies": {
