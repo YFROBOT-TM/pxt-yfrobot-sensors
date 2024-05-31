@@ -788,6 +788,8 @@ namespace YFSENSORS {
      * param serial_number voice serial number.
      */
     function voiceBroadcastModuleSendDataWithS(vbmPin: DigitalPin, serial_number: number): void {
+        pins.digitalWritePin(vbmPin, 1); 
+        basic.pause(3);
         pins.digitalWritePin(vbmPin, 0); 
         basic.pause(3);
         voiceBroadcastModuleSendData(vbmPin, serial_number);
@@ -805,7 +807,6 @@ namespace YFSENSORS {
     //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
     //% inlineInputMode=inline
     export function voiceBroadcastModule(vbmPin: DigitalPin, serial_number: number, delayt: number = 50): void {
-        pins.digitalWritePin(vbmPin, 1); 
 
         voiceBroadcastModuleSendDataWithS(vbmPin, serial_number);
         if (delayt > 50 ) {
