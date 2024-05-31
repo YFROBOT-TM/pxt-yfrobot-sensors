@@ -805,10 +805,13 @@ namespace YFSENSORS {
     //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
     //% inlineInputMode=inline
     export function voiceBroadcastModule(vbmPin: DigitalPin, serial_number: number, delayt: number = 50): void {
+        pins.digitalWritePin(vbmPin, 1); 
+
         voiceBroadcastModuleSendDataWithS(vbmPin, serial_number);
-        if (delayt >= 50 ) {
+        if (delayt > 50 ) {
             basic.pause(delayt);
-        }
+        } else 
+            basic.pause(50);
     }
     
     /**
