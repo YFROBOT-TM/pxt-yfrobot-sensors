@@ -550,6 +550,10 @@ enum YFDigitalInputModule {
     PATROL_SINGLE = 0x0A,
     //% blockId="YFDIM_LIQUID_LEVEL" block="LIQUID_LEVEL"
     LIQUID_LEVEL = 0x0B,
+    //% blockId="YFDIM_LTCH_LEDBTN" block="Latching LED Button"
+    LTCH_LEDBTN = 0x0C,
+    //% blockId="YFDIM_MOM_LEDBTN" block="Momentary_LED_Button" 
+    MOM_LEDBTN = 0x0D,
 }
 
 enum YFDigitalInputModuleE {
@@ -1134,7 +1138,10 @@ namespace YFSENSORS {
         || dim == YFDigitalInputModule.PATROL_LEFT 
         || dim == YFDigitalInputModule.PATROL_RIGHT
         || dim == YFDigitalInputModule.PATROL_SINGLE
-        || dim == YFDigitalInputModule.LIQUID_LEVEL ){
+        || dim == YFDigitalInputModule.LIQUID_LEVEL
+        || dim == YFDigitalInputModule.LTCH_LEDBTN
+        || dim == YFDigitalInputModule.MOM_LEDBTN
+         ){
             a = pins.digitalReadPin(dimPin);
             if (a == 1) return false;
             else    return true;

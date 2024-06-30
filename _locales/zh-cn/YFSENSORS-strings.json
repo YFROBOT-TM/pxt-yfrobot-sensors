@@ -123,6 +123,8 @@
   "YFDigitalInputModule.PATROL_RIGHT|block":"巡线-右",
   "YFDigitalInputModule.PATROL_SINGLE|block":"单路巡线",
   "YFDigitalInputModule.LIQUID_LEVEL|block":"液位检测",
+  "YFDigitalInputModule.LTCH_LEDBTN|block":"锁存带灯按键",
+  "YFDigitalInputModule.MOM_LEDBTN|block":"点动带灯按键",
   "YFSENSORS.digitalInputModule|block":"连接%dimPin|%dim|模块",
   "YFDigitalInputModuleE.BUTTON|block":"按键",
   "YFDigitalInputModuleE.COLLISION_SWITCH|block":"碰撞开关",
