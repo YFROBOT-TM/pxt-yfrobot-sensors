@@ -692,9 +692,8 @@ namespace YFSENSORS {
      * ON or OFF.
      * @param num on or off eg: YFSwitchState.ON
      */
-    //% advanced=true
     //% group="Output"
-    //% blockId=YFSENSORS_domOnOff weight=11 blockGap=15
+    //% blockId=YFSENSORS_domOnOff weight=97 blockGap=15
     //% block="%num"
     //% num.fieldEditor="gridpicker" num.fieldOptions.columns=2
     export function domOnOff(num: YFSwitchState): number {
@@ -724,9 +723,8 @@ namespace YFSENSORS {
      * Returns the serial number of OTP fixed voice list.
      * @param num serial number. eg: YFOTPFixedVoiceList.OTPFVL_00
      */
-    //% advanced=true
     //% group="Output"
-    //% blockId=YFSENSORS_OTPFixedVoiceListNum weight=10 blockGap=15
+    //% blockId=YFSENSORS_OTPFixedVoiceListNum weight=94 blockGap=15
     //% block="%num| "
     //% num.fieldEditor="gridpicker" num.fieldOptions.columns=10
     export function OTPFixedVoiceListNum(num: YFOTPFixedVoiceList): number {
@@ -749,7 +747,6 @@ namespace YFSENSORS {
       * Get numeric value of colour
       * @param color Standard RGB Led Colours eg: #ff0000
       */
-    //% advanced=true
     //% group="Output"
     //% blockId="YFSENSORS_bb_colours" weight=0 blockGap=15
     //% block=%color
@@ -855,7 +852,7 @@ namespace YFSENSORS {
         }
         voiceBroadcastModuleSendData(vbmPin, YFOTPFixedVoiceFun2.TailCode); // 尾码
         checksum += YFOTPFixedVoiceFun2.TailCode;
-        voiceBroadcastModuleSendData(vbmPin, (checksum && 0xFF)); // 校验和
+        voiceBroadcastModuleSendData(vbmPin, (checksum & 0xFF)); // 校验和
     }
 
     /**
@@ -924,7 +921,6 @@ namespace YFSENSORS {
      * MP3 audio playback module select specified track(1-255) with no play.
      * @param specified_track mp3 module specified track number. eg: 1
      */
-    //% advanced=true
     //% group="Output"
     //% blockId=YFSENSORS_audioPlaybackModuleSelectTrackNum weight=90 blockGap=15
     //% block="audio playback select specified track %specified_track| no play"
@@ -946,7 +942,6 @@ namespace YFSENSORS {
      * MP3 audio playback module Playback settings.
      * @param specified_fun mp3 module specified track number. eg: YFAudioPlaybackFunWithNum.SelectPlay
      */
-    //% advanced=true
     //% group="Output"
     //% blockId=YFSENSORS_audioPlaybackModuleFunSelect weight=89 blockGap=15
     //% block="audio playback %specified_fun"
@@ -1006,7 +1001,6 @@ namespace YFSENSORS {
      * @param pin_busy busy pin. eg: DigitalPin.P1
      * @param m_busy mp3 module or voice broadcast. eg: YFMVModule.MP3_AUDIO
      */
-    //% advanced=true
     //% group="Output"
     //% blockId=YFSENSORS_readBusyPin weight=80 blockGap=15
     //% block="%m_busy read busy pin %pin_busy"
