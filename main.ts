@@ -751,6 +751,7 @@ namespace YFSENSORS {
     //% group="Output"
     //% blockId=YFSENSORS_voiceDigitNum weight=94 blockGap=15
     //% block="数字 %num"
+    //% num.min=0 num.max=9
     export function voiceDigitNum(num: number): number {
         num = Math.floor(num);
         if (num <= 0) return 0x2C; // 数字0
