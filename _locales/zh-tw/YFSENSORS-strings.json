@@ -59,6 +59,8 @@
   "YFSENSORS.voiceBroadcastModule|block":"語音播報 %vbmPin| 播放 %serial_number=YFSENSORS_OTPFixedVoiceListNum || 並延時 %delayt| ms",
   "YFSENSORS.voiceBroadcastModuleFun|block":"語音播報 %vbmfPin| %serial_num",
   "YFSENSORS.voiceBroadcastModuleFunContPlay|block":"語音播報 %vbmPin| 連續播放 %serial_number",
+  "YFSENSORS.voiceBroadcastModuleNum|block":"語音播報 %vbmPin| 播報數字 %num || 並延時 %delayt| ms",
+  "YFSENSORS.voiceDigitNum|block":"數字 %num",
   "YFSENSORS.OTPFixedVoiceMute|block":"%mute",
   "YFSENSORS.audioPlaybackModule_connectPin|block":"連接MP3音頻播放模塊到 %pin_data",
   "YFSENSORS.audioPlaybackModuleSelectTrackNum|block":"音頻播放模塊選擇曲目：%specified_track",

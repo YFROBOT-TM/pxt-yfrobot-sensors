@@ -744,6 +744,21 @@ namespace YFSENSORS {
     }
 
     /**
+     * Convert digit 0~9 to the fixed voice serial number.
+     * @param num digit. eg: 5
+     */
+    //% group="Output"
+    //% blockId=YFSENSORS_voiceDigitNum weight=94 blockGap=15
+    //% block="数字 %num"
+    //% num.min=0 num.max=9
+    //% num.fieldEditor="numberpicker" num.fieldOptions.columns=10
+    export function voiceDigitNum(num: number): number {
+        if (num <= 0) return 0x2C; // 数字0
+        if (num > 9) num = 9;
+        return 0x22 + num; // 数字1~9 => 0x23~0x2B
+    }
+
+    /**
       * Get numeric value of colour
       * @param color Standard RGB Led Colours eg: #ff0000
       */
@@ -853,6 +868,38 @@ namespace YFSENSORS {
         voiceBroadcastModuleSendData(vbmPin, YFOTPFixedVoiceFun2.TailCode); // 尾码
         checksum += YFOTPFixedVoiceFun2.TailCode;
         voiceBroadcastModuleSendData(vbmPin, (checksum & 0xFF)); // 校验和
+    }
+
+    /**
+     * Fixed voice broadcast module broadcast a number(0~99999999), auto split to digits.
+     * @param vbmPin pin. eg: DigitalPin.P2
+     * @param num the number to broadcast. eg: 25
+     * @param delayt delay time. eg: 50
+     */
+    //% group="Output"
+    //% blockId=YFSENSORS_voiceBroadcastModuleNum weight=92 blockGap=15
+    //% block="voice broadcast %vbmPin| broadcast number %num || delay %delayt| ms"
+    //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
+    //% num.min=0 num.max=99999999
+    //% inlineInputMode=inline
+    export function voiceBroadcastModuleNum(vbmPin: DigitalPin, num: number, delayt: number = 50): void {
+        if (num < 0) num = 0;
+        if (num > 99999999) num = 99999999;
+        let digits = splitToDigit(Math.floor(num)); // [个位, 十位, 百位...]
+        let list: number[] = [];
+        if (digits.length == 0) {
+            list.push(0x2C); // 数字0
+        } else {
+            for (let index = digits.length - 1; index >= 0; index--) {
+                let d = digits[index];
+                list.push(d == 0 ? 0x2C : 0x22 + d); // 数字0 => 0x2C, 数字1~9 => 0x23~0x2B
+            }
+        }
+        voiceBroadcastModuleFunContPlay(vbmPin, list);
+        if (delayt > 50) {
+            basic.pause(delayt);
+        } else
+            basic.pause(50);
     }
 
     /**
