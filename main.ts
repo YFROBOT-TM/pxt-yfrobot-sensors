@@ -745,14 +745,14 @@ namespace YFSENSORS {
 
     /**
      * Convert digit 0~9 to the fixed voice serial number.
+     * Can be used in "play" slot or inside "continuous play" list.
      * @param num digit. eg: 5
      */
     //% group="Output"
     //% blockId=YFSENSORS_voiceDigitNum weight=94 blockGap=15
     //% block="数字 %num"
-    //% num.min=0 num.max=9
-    //% num.fieldEditor="numberpicker" num.fieldOptions.columns=10
     export function voiceDigitNum(num: number): number {
+        num = Math.floor(num);
         if (num <= 0) return 0x2C; // 数字0
         if (num > 9) num = 9;
         return 0x22 + num; // 数字1~9 => 0x23~0x2B
@@ -871,7 +871,8 @@ namespace YFSENSORS {
     }
 
     /**
-     * Fixed voice broadcast module broadcast a number(0~99999999), auto split to digits.
+     * Fixed voice broadcast module broadcast a number(0~9999) in Chinese reading,
+     * e.g. 25 => "二 十 五"(二十五), 105 => "一 百 零 五", using 十/百/千 in voice list.
      * @param vbmPin pin. eg: DigitalPin.P2
      * @param num the number to broadcast. eg: 25
      * @param delayt delay time. eg: 50
@@ -880,19 +881,48 @@ namespace YFSENSORS {
     //% blockId=YFSENSORS_voiceBroadcastModuleNum weight=92 blockGap=15
     //% block="voice broadcast %vbmPin| broadcast number %num || delay %delayt| ms"
     //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
-    //% num.min=0 num.max=99999999
+    //% num.min=0 num.max=9999
     //% inlineInputMode=inline
     export function voiceBroadcastModuleNum(vbmPin: DigitalPin, num: number, delayt: number = 50): void {
+        const VOICE_THOUSAND = 0x20; // 千
+        const VOICE_HUNDRED = 0x21;  // 百
+        const VOICE_TEN = 0x22;      // 十
+        const VOICE_ZERO = 0x2C;     // 0(零)
+
         if (num < 0) num = 0;
-        if (num > 99999999) num = 99999999;
-        let digits = splitToDigit(Math.floor(num)); // [个位, 十位, 百位...]
+        if (num > 9999) num = 9999;
+        num = Math.floor(num);
+
         let list: number[] = [];
-        if (digits.length == 0) {
-            list.push(0x2C); // 数字0
+        if (num == 0) {
+            list.push(VOICE_ZERO);
         } else {
-            for (let index = digits.length - 1; index >= 0; index--) {
-                let d = digits[index];
-                list.push(d == 0 ? 0x2C : 0x22 + d); // 数字0 => 0x2C, 数字1~9 => 0x23~0x2B
+            let digits: number[] = []; // 高位在前
+            let n = num;
+            while (n > 0) {
+                digits.unshift(n % 10);
+                n = Math.floor(n / 10);
+            }
+            let len = digits.length;
+            let pendingZero = false;
+            for (let i = 0; i < len; i++) {
+                let d = digits[i];
+                let place = len - 1 - i; // 0=个位 1=十位 2=百位 3=千位
+                if (d == 0) {
+                    pendingZero = true; // 中间有0，待遇到下一位非零时补读"零"
+                    continue;
+                }
+                if (pendingZero) {
+                    list.push(VOICE_ZERO);
+                    pendingZero = false;
+                }
+                // 10~19 读"十几"，不读"一十"
+                if (!(i == 0 && d == 1 && place == 1)) {
+                    list.push(0x22 + d); // 数字1~9 => 0x23~0x2B
+                }
+                if (place == 3) list.push(VOICE_THOUSAND);
+                else if (place == 2) list.push(VOICE_HUNDRED);
+                else if (place == 1) list.push(VOICE_TEN);
             }
         }
         voiceBroadcastModuleFunContPlay(vbmPin, list);
