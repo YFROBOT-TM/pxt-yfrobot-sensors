@@ -277,6 +277,147 @@ enum YFOTPFixedVoiceList {
     //% blockId="YFOTPFVL_43" block="世界那么大，我想去看看"
     OTPFVL_43 = 0x43,
 }
+/*************************  Output - OTP say word list (整句连码词槽，含空槽)  *************************/
+enum YFSayWord {
+    //% blockId="YFSAY_EMPTY" block="空"
+    SAY_EMPTY = 0x100,
+    //% blockId="YFSAY_00" block="老师"
+    SAY_00 = 0x00,
+    //% blockId="YFSAY_01" block="爸爸"
+    SAY_01 = 0x01,
+    //% blockId="YFSAY_02" block="妈妈"
+    SAY_02 = 0x02,
+    //% blockId="YFSAY_03" block="爷爷"
+    SAY_03 = 0x03,
+    //% blockId="YFSAY_04" block="奶奶"
+    SAY_04 = 0x04,
+    //% blockId="YFSAY_05" block="姥姥"
+    SAY_05 = 0x05,
+    //% blockId="YFSAY_06" block="姥爷"
+    SAY_06 = 0x06,
+    //% blockId="YFSAY_07" block="哥哥"
+    SAY_07 = 0x07,
+    //% blockId="YFSAY_08" block="姐姐"
+    SAY_08 = 0x08,
+    //% blockId="YFSAY_09" block="叔叔"
+    SAY_09 = 0x09,
+    //% blockId="YFSAY_0A" block="阿姨"
+    SAY_0A = 0x0A,
+    //% blockId="YFSAY_0B" block="上午"
+    SAY_0B = 0x0B,
+    //% blockId="YFSAY_0C" block="下午"
+    SAY_0C = 0x0C,
+    //% blockId="YFSAY_0D" block="晚上"
+    SAY_0D = 0x0D,
+    //% blockId="YFSAY_0E" block="前方"
+    SAY_0E = 0x0E,
+    //% blockId="YFSAY_0F" block="厘米"
+    SAY_0F = 0x0F,
+    //% blockId="YFSAY_10" block="新年快乐"
+    SAY_10 = 0x10,
+    //% blockId="YFSAY_11" block="身体健康"
+    SAY_11 = 0x11,
+    //% blockId="YFSAY_12" block="工作顺利"
+    SAY_12 = 0x12,
+    //% blockId="YFSAY_13" block="学习进步"
+    SAY_13 = 0x13,
+    //% blockId="YFSAY_14" block="您好"
+    SAY_14 = 0x14,
+    //% blockId="YFSAY_15" block="谢谢"
+    SAY_15 = 0x15,
+    //% blockId="YFSAY_16" block="的"
+    SAY_16 = 0x16,
+    //% blockId="YFSAY_17" block="祝"
+    SAY_17 = 0x17,
+    //% blockId="YFSAY_18" block="慢走"
+    SAY_18 = 0x18,
+    //% blockId="YFSAY_19" block="欢迎光临"
+    SAY_19 = 0x19,
+    //% blockId="YFSAY_1A" block="亲爱的""
+    SAY_1A = 0x1A,
+    //% blockId="YFSAY_1B" block="同学们"
+    SAY_1B = 0x1B,
+    //% blockId="YFSAY_1C" block="工作辛苦了"
+    SAY_1C = 0x1C,
+    //% blockId="YFSAY_1D" block="点"
+    SAY_1D = 0x1D,
+    //% blockId="YFSAY_1E" block="打开"
+    SAY_1E = 0x1E,
+    //% blockId="YFSAY_1F" block="关闭"
+    SAY_1F = 0x1F,
+    //% blockId="YFSAY_20" block="千"
+    SAY_20 = 0x20,
+    //% blockId="YFSAY_21" block="百"
+    SAY_21 = 0x21,
+    //% blockId="YFSAY_22" block="十/时"
+    SAY_22 = 0x22,
+    //% blockId="YFSAY_23" block="1"
+    SAY_23 = 0x23,
+    //% blockId="YFSAY_24" block="2"
+    SAY_24 = 0x24,
+    //% blockId="YFSAY_25" block="3"
+    SAY_25 = 0x25,
+    //% blockId="YFSAY_26" block="4"
+    SAY_26 = 0x26,
+    //% blockId="YFSAY_27" block="5"
+    SAY_27 = 0x27,
+    //% blockId="YFSAY_28" block="6"
+    SAY_28 = 0x28,
+    //% blockId="YFSAY_29" block="7"
+    SAY_29 = 0x29,
+    //% blockId="YFSAY_2A" block="8"
+    SAY_2A = 0x2A,
+    //% blockId="YFSAY_2B" block="9"
+    SAY_2B = 0x2B,
+    //% blockId="YFSAY_2C" block="0"
+    SAY_2C = 0x2C,
+    //% blockId="YFSAY_2D" block="当前"
+    SAY_2D = 0x2D,
+    //% blockId="YFSAY_2E" block="转"
+    SAY_2E = 0x2E,
+    //% blockId="YFSAY_2F" block="左"
+    SAY_2F = 0x2F,
+    //% blockId="YFSAY_30" block="右"
+    SAY_30 = 0x30,
+    //% blockId="YFSAY_31" block="请"
+    SAY_31 = 0x31,
+    //% blockId="YFSAY_32" block="已"
+    SAY_32 = 0x32,
+    //% blockId="YFSAY_33" block="现在"
+    SAY_33 = 0x33,
+    //% blockId="YFSAY_34" block="是"
+    SAY_34 = 0x34,
+    //% blockId="YFSAY_35" block="红灯"
+    SAY_35 = 0x35,
+    //% blockId="YFSAY_36" block="绿灯"
+    SAY_36 = 0x36,
+    //% blockId="YFSAY_37" block="黄灯"
+    SAY_37 = 0x37,
+    //% blockId="YFSAY_38" block="温度"
+    SAY_38 = 0x38,
+    //% blockId="YFSAY_39" block="湿度"
+    SAY_39 = 0x39,
+    //% blockId="YFSAY_3A" block="欢迎常来"
+    SAY_3A = 0x3A,
+    //% blockId="YFSAY_3B" block="还有"
+    SAY_3B = 0x3B,
+    //% blockId="YFSAY_3C" block="秒"
+    SAY_3C = 0x3C,
+    //% blockId="YFSAY_3D" block="分"
+    SAY_3D = 0x3D,
+    //% blockId="YFSAY_3E" block="变"
+    SAY_3E = 0x3E,
+    //% blockId="YFSAY_3F" block="等"
+    SAY_3F = 0x3F,
+    //% blockId="YFSAY_40" block="下一次"
+    SAY_40 = 0x40,
+    //% blockId="YFSAY_41" block="功能"
+    SAY_41 = 0x41,
+    //% blockId="YFSAY_42" block="障碍物"
+    SAY_42 = 0x42,
+    //% blockId="YFSAY_43" block="世界那么大，我想去看看"
+    SAY_43 = 0x43,
+}
 
 enum YFOTPFixedVoiceList2 {
     //% blockId="YFOTPFVL_44" block="今天"
@@ -867,6 +1008,116 @@ namespace YFSENSORS {
     }
 
     /**
+     * 中文读法展开：把 0~9999 写成语音地址序列（内部共用，参照 Mind+ voiceNumberToList）。
+     * 0->零；10~19 读"十几"不读"一十"；中间连续零补读一个；末尾零不读。
+     */
+    function voiceNumberToAddressList(num: number): number[] {
+        const VOICE_THOUSAND = 0x20; // 千
+        const VOICE_HUNDRED = 0x21;  // 百
+        const VOICE_TEN = 0x22;      // 十
+        const VOICE_ZERO = 0x2C;     // 0(零)
+        let list: number[] = [];
+        if (num < 0) num = 0;
+        if (num > 9999) num = 9999;
+        num = Math.floor(num);
+        if (num == 0) {
+            list.push(VOICE_ZERO);
+            return list;
+        }
+        let digits: number[] = []; // 高位在前
+        let n = num;
+        while (n > 0) {
+            digits.unshift(n % 10);
+            n = Math.floor(n / 10);
+        }
+        let len = digits.length;
+        let pendingZero = false;
+        for (let i = 0; i < len; i++) {
+            let d = digits[i];
+            let place = len - 1 - i; // 0=个位 1=十位 2=百位 3=千位
+            if (d == 0) {
+                pendingZero = true; // 中间有0，待遇到下一位非零时补读"零"
+                continue;
+            }
+            if (pendingZero) {
+                list.push(VOICE_ZERO);
+                pendingZero = false;
+            }
+            // 10~19 读"十几"，不读"一十"
+            if (!(i == 0 && d == 1 && place == 1)) {
+                list.push(0x22 + d); // 数字1~9 => 0x23~0x2B
+            }
+            if (place == 3) list.push(VOICE_THOUSAND);
+            else if (place == 2) list.push(VOICE_HUNDRED);
+            else if (place == 1) list.push(VOICE_TEN);
+        }
+        return list;
+    }
+
+    /**
+     * 整句连码播放：一个积木 = 一句完整的话，帧头/帧尾/校验和自动处理。
+     * 词槽可选固定词条（下拉），也可拖入"数值"值块（可接变量/传感器值，运行时展开中文读法）。
+     * 槽位编码（与 Mind+ V0.1.9 一致）：>=0x100 空槽跳过；<0 数值项（原值 = -item - 2，0~9999）；0x00~0xF4 固定语音地址。
+     * 校验和在展开全部数值之后统一计算。
+     * @param vbmPin pin. eg: DigitalPin.P2
+     */
+    //% group="Output"
+    //% blockId=YFSENSORS_voiceBroadcastModuleSay weight=92 blockGap=15
+    //% block="voice broadcast %vbmPin| say %w1=YFSENSORS_sayWordPick| %w2=YFSENSORS_sayWordPick| %w3=YFSENSORS_sayWordPick| %w4=YFSENSORS_sayWordPick || %w5=YFSENSORS_sayWordPick| %w6=YFSENSORS_sayWordPick| %w7=YFSENSORS_sayWordPick| %w8=YFSENSORS_sayWordPick"
+    //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
+    //% expandableArgumentMode="toggle"
+    //% inlineInputMode=inline
+    export function voiceBroadcastModuleSay(vbmPin: DigitalPin, w1: number, w2: number, w3: number, w4: number, w5: number = 0x100, w6: number = 0x100, w7: number = 0x100, w8: number = 0x100): void {
+        let items = [w1, w2, w3, w4, w5, w6, w7, w8];
+        let checksum = 0xF1; // 头码
+        voiceBroadcastModuleSendDataWithS(vbmPin, 0xF1); // 头码(带起始位)
+        for (let i = 0; i < items.length; i++) {
+            let it = items[i];
+            if (it >= 0x100) continue; // 空槽
+            if (it < 0) { // 数值项 -> 运行时展开中文读法
+                let nums = voiceNumberToAddressList(-it - 2);
+                for (let k = 0; k < nums.length; k++) {
+                    voiceBroadcastModuleSendData(vbmPin, nums[k]);
+                    checksum += nums[k];
+                }
+            } else { // 固定词条
+                voiceBroadcastModuleSendData(vbmPin, it);
+                checksum += it;
+            }
+        }
+        voiceBroadcastModuleSendData(vbmPin, 0xF3); // 尾码
+        checksum += 0xF3;
+        voiceBroadcastModuleSendData(vbmPin, checksum % 256); // 校验和基于展开后的全部字节
+    }
+
+    /**
+     * 说一句话积木的词槽选择器（shadow，默认空槽；不单独出现在工具箱）。
+     * @param word word. eg: YFSayWord.SAY_EMPTY
+     */
+    //% advanced=true
+    //% blockId=YFSENSORS_sayWordPick weight=8 blockGap=15
+    //% block="%word"
+    //% word.fieldEditor="gridpicker" word.fieldOptions.columns=10
+    export function sayWordPick(word: YFSayWord = YFSayWord.SAY_EMPTY): number {
+        return word;
+    }
+
+    /**
+     * 数值值块：把运行时数值(0~9999)编码成负数标记，拖入"说一句话"积木的词槽，
+     * 播放时自动展开为中文读法。槽位编码与 Mind+ V0.1.9 一致：返回 -(num+2)。
+     * @param num number. eg: 25
+     */
+    //% group="Output"
+    //% blockId=YFSENSORS_voiceNumberMark weight=91 blockGap=15
+    //% block="数值 %num"
+    //% num.min=0 num.max=9999
+    export function voiceNumberMark(num: number): number {
+        if (num < 0) num = 0;
+        if (num > 9999) num = 9999;
+        return -(Math.floor(num) + 2);
+    }
+
+    /**
      * Fixed voice broadcast module broadcast a number(0~9999) in Chinese reading,
      * e.g. 25 => "二 十 五"(二十五), 105 => "一 百 零 五", using 十/百/千 in voice list.
      * @param vbmPin pin. eg: DigitalPin.P2
@@ -880,47 +1131,7 @@ namespace YFSENSORS {
     //% num.min=0 num.max=9999
     //% inlineInputMode=inline
     export function voiceBroadcastModuleNum(vbmPin: DigitalPin, num: number, delayt: number = 50): void {
-        const VOICE_THOUSAND = 0x20; // 千
-        const VOICE_HUNDRED = 0x21;  // 百
-        const VOICE_TEN = 0x22;      // 十
-        const VOICE_ZERO = 0x2C;     // 0(零)
-
-        if (num < 0) num = 0;
-        if (num > 9999) num = 9999;
-        num = Math.floor(num);
-
-        let list: number[] = [];
-        if (num == 0) {
-            list.push(VOICE_ZERO);
-        } else {
-            let digits: number[] = []; // 高位在前
-            let n = num;
-            while (n > 0) {
-                digits.unshift(n % 10);
-                n = Math.floor(n / 10);
-            }
-            let len = digits.length;
-            let pendingZero = false;
-            for (let i = 0; i < len; i++) {
-                let d = digits[i];
-                let place = len - 1 - i; // 0=个位 1=十位 2=百位 3=千位
-                if (d == 0) {
-                    pendingZero = true; // 中间有0，待遇到下一位非零时补读"零"
-                    continue;
-                }
-                if (pendingZero) {
-                    list.push(VOICE_ZERO);
-                    pendingZero = false;
-                }
-                // 10~19 读"十几"，不读"一十"
-                if (!(i == 0 && d == 1 && place == 1)) {
-                    list.push(0x22 + d); // 数字1~9 => 0x23~0x2B
-                }
-                if (place == 3) list.push(VOICE_THOUSAND);
-                else if (place == 2) list.push(VOICE_HUNDRED);
-                else if (place == 1) list.push(VOICE_TEN);
-            }
-        }
+        let list = voiceNumberToAddressList(num); // 中文读法展开（与整句连码共用）
         voiceBroadcastModuleFunContPlay(vbmPin, list);
         if (delayt > 50) {
             basic.pause(delayt);
