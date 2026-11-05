@@ -773,24 +773,6 @@ namespace YFSENSORS {
     }
 
     /**
-      * Get numeric value of colour
-      * @param color Standard RGB Led Colours eg: #ff0000
-      */
-    //% group="Output"
-    //% blockId="YFSENSORS_bb_colours" weight=0 blockGap=15
-    //% block=%color
-    //% shim=TD_ID colorSecondary="#e7660b"
-    //% color.fieldEditor="colornumber"
-    //% color.fieldOptions.decompileLiterals=true
-    //% color.defl='#ff0000'
-    //% color.fieldOptions.colours='["#FF0000","#659900","#18E600","#80FF00","#00FF00","#FF8000","#D82600","#B24C00","#00FFC0","#00FF80","#FFC000","#FF0080","#FF00FF","#B09EFF","#00FFFF","#FFFF00","#8000FF","#0080FF","#0000FF","#FFFFFF","#FF8080","#80FF80","#40C0FF","#999999","#000000"]'
-    //% color.fieldOptions.columns=5
-    //% color.fieldOptions.className='rgbColorPicker'
-    export function BBColours(color: number): number {
-        return color;
-    }
-
-    /**
      * Fixed voice broadcast module send data with no start bit.
      * param vbmPin pin.
      * param serial_number voice serial number.
