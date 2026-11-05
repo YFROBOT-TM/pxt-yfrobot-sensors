@@ -1142,7 +1142,7 @@ namespace YFSENSORS {
      * 播放时自动展开为中文读法。槽位编码与 Mind+ V0.1.9 一致：返回 -(num+2)。
      * @param num number. eg: 25
      */
-    //% group="Output"
+    //% group="语音播报"
     //% blockId=YFSENSORS_voiceNumberMark weight=91 blockGap=15
     //% block="数值 %num"
     //% num.min=0 num.max=9999
@@ -1236,26 +1236,6 @@ namespace YFSENSORS {
         return num;
     }
 
-    /**
-     * MP3 audio playback module select specified track(1-255) with no play.
-     * @param specified_track mp3 module specified track number. eg: 1
-     */
-    //% group="MP3 Audio Playback"
-    //% blockId=YFSENSORS_audioPlaybackModuleSelectTrackNum weight=90 blockGap=15
-    //% block="audio playback select specified track %specified_track| no play"
-    //% specified_track.min=1 specified_track.max=255
-    export function audioPlaybackModuleSelectTrackNum(specified_track: number): void {
-        let s_track = specified_track;
-        if(s_track >= 10){
-            let s_track_num = splitToDigit(s_track);
-            control.waitMicros(10);
-            for (let index = s_track_num.length-1; index >= 0; index--) {
-                audioPlaybackModule_sendData(s_track_num[index]); // Select the music
-            }
-        } else {
-            audioPlaybackModule_sendData(s_track); // Select the music
-        }
-    }
 
     /**
      * MP3 audio playback module Playback settings.
@@ -1302,6 +1282,26 @@ namespace YFSENSORS {
         audioPlaybackModule_sendData(specified_fun);
     }
 
+    /**
+     * MP3 audio playback module select specified track(1-255) with no play.
+     * @param specified_track mp3 module specified track number. eg: 1
+     */
+    //% group="MP3 Audio Playback"
+    //% blockId=YFSENSORS_audioPlaybackModuleSelectTrackNum weight=87 blockGap=15
+    //% block="audio playback select specified track %specified_track| no play"
+    //% specified_track.min=1 specified_track.max=255
+    export function audioPlaybackModuleSelectTrackNum(specified_track: number): void {
+        let s_track = specified_track;
+        if(s_track >= 10){
+            let s_track_num = splitToDigit(s_track);
+            control.waitMicros(10);
+            for (let index = s_track_num.length-1; index >= 0; index--) {
+                audioPlaybackModule_sendData(s_track_num[index]); // Select the music
+            }
+        } else {
+            audioPlaybackModule_sendData(s_track); // Select the music
+        }
+    }
 
     /**
      * MP3 audio playback module Playback settings.
@@ -1321,7 +1321,7 @@ namespace YFSENSORS {
      * @param m_busy mp3 module or voice broadcast. eg: YFMVModule.MP3_AUDIO
      */
     //% group="MP3 Audio Playback"
-    //% blockId=YFSENSORS_readBusyPin weight=80 blockGap=15
+    //% blockId=YFSENSORS_readBusyPin weight=60 blockGap=15
     //% block="%m_busy read busy pin %pin_busy"
     //% pin_busy.fieldEditor="gridpicker" pin_busy.fieldOptions.columns=4
     //% m_busy.fieldEditor="gridpicker" m_busy.fieldOptions.columns=2

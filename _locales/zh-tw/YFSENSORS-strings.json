@@ -61,7 +61,7 @@
   "YFSENSORS.voiceBroadcastModuleFunContPlay|block":"語音播報 %vbmPin| 連續播放 %serial_number",
   "YFSENSORS.voiceBroadcastModuleNum|block":"語音播報 %vbmPin| 播報數字 %num || 並延時 %delayt| ms",
   "YFSENSORS.voiceDigitNum|block":"數字 %num 的 %place",
-  "YFSENSORS.voiceBroadcastModuleSay|block":"語音播報 %vbmPin| 說 %w1 %w2 %w3 %w4 || %w5 %w6 %w7 %w8",
+  "YFSENSORS.voiceBroadcastModuleSay|block":"語音播報 %vbmPin| 說 %w1=YFSENSORS_sayWordPick| %w2=YFSENSORS_sayWordPick| %w3=YFSENSORS_sayWordPick| %w4=YFSENSORS_sayWordPick || %w5=YFSENSORS_sayWordPick| %w6=YFSENSORS_sayWordPick| %w7=YFSENSORS_sayWordPick| %w8=YFSENSORS_sayWordPick",
   "YFSENSORS.voiceNumberMark|block":"數值 %num",
   "YFSayWord.SAY_EMPTY|block":"空",
   "YFVoiceDigitPlace.Ones|block":"個位",
