@@ -821,7 +821,7 @@ namespace YFSENSORS {
     * @param state switch state.
     * @param percentage brightness of LED, Motor vibration strength, fan rotation speed.
     */
-    //% group="Output"
+    //% group="Output_Basic"
     //% blockId=YFSENSORS_readInfraredSensor weight=100 blockGap=15
     //% block="%adom| %adomPin toggle to %state || percentage %percentage \\%"
     //% adom.fieldEditor="gridpicker" adom.fieldOptions.columns=2
@@ -842,24 +842,12 @@ namespace YFSENSORS {
     }
 
     /**
-     * ON or OFF.
-     * @param num on or off eg: YFSwitchState.ON
-     */
-    //% group="Output"
-    //% blockId=YFSENSORS_domOnOff weight=97 blockGap=15
-    //% block="%num"
-    //% num.fieldEditor="gridpicker" num.fieldOptions.columns=2
-    export function domOnOff(num: YFSwitchState): number {
-        return num;
-    }
-
-    /**
      * Turn the Digital Output Module ON or OFF.
      * @param domPin pin. eg: DigitalPin.P2
      * @param dom pin. eg: YFDigitalOutputModule.LED
      * @param sws switch state.
      */
-    //% group="Output"
+    //% group="Output_Basic"
     //% blockId=YFSENSORS_digitalOutputModule weight=98 blockGap=15
     //% block="%dom| at %domPin| %sws=YFSENSORS_domOnOff"
     //% domPin.fieldEditor="gridpicker" domPin.fieldOptions.columns=4
@@ -870,31 +858,54 @@ namespace YFSENSORS {
         pins.digitalWritePin(domPin, sws);
     }
 
+    /**
+     * ON or OFF.
+     * @param num on or off eg: YFSwitchState.ON
+     */
+    //% group="Output_Basic"
+    //% blockId=YFSENSORS_domOnOff weight=97 blockGap=15
+    //% block="%num"
+    //% num.fieldEditor="gridpicker" num.fieldOptions.columns=2
+    export function domOnOff(num: YFSwitchState): number {
+        return num;
+    }
+
+    
+    ///////////////////// Output - Traffic Light module ///////////////////////
+    /**
+     * Traffic Light module light up red, green or yellow led.
+     * @param tlm1Pin pin 1. eg: DigitalPin.P1
+     * @param tlm2Pin pin 2. eg: DigitalPin.P2
+     * @param wColor which color led. eg: YFTrafficLightLED.AllTurnOFF
+     */
+    //% group="Output_Basic"
+    //% blockId=YFSENSORS_trafficLightModule weight=80 blockGap=15
+    //% block="traffic light %tlm1Pin| %tlm2Pin| %wColor"
+    //% tlm1Pin.fieldEditor="gridpicker" tlm1Pin.fieldOptions.columns=4
+    //% tlm2Pin.fieldEditor="gridpicker" tlm2Pin.fieldOptions.columns=4
+    //% wColor.fieldEditor="gridpicker" wColor.fieldOptions.columns=2
+    export function trafficLightModule(tlm1Pin: DigitalPin, tlm2Pin: DigitalPin, wColor: YFTrafficLightLED): void {
+        switch (wColor) {
+            case YFTrafficLightLED.RedLED:            // Red LED
+                pins.digitalWritePin(tlm1Pin, 0);
+                pins.digitalWritePin(tlm2Pin, 1);
+                break;
+            case YFTrafficLightLED.YellowLED:         // Yellow LED
+                pins.digitalWritePin(tlm1Pin, 1);
+                pins.digitalWritePin(tlm2Pin, 0);
+                break;
+            case YFTrafficLightLED.GreenLED:          // Green LED
+                pins.digitalWritePin(tlm1Pin, 1);
+                pins.digitalWritePin(tlm2Pin, 1);
+                break;
+            default: // YFTrafficLightLED.AllTurnOFF: // all lights turn off
+                pins.digitalWritePin(tlm1Pin, 0);
+                pins.digitalWritePin(tlm2Pin, 0);
+                break;
+        }
+    }
 
     ///////////////////// Output - OTP Fixed voice broadcast module ///////////////////////
-    /**
-     * Returns the serial number of OTP fixed voice list.
-     * @param num serial number. eg: YFOTPFixedVoiceList.OTPFVL_00
-     */
-    //% group="Output"
-    //% blockId=YFSENSORS_OTPFixedVoiceListNum weight=94 blockGap=15
-    //% block="%num| "
-    //% num.fieldEditor="gridpicker" num.fieldOptions.columns=10
-    export function OTPFixedVoiceListNum(num: YFOTPFixedVoiceList): number {
-        return num;
-    }
-
-    /**
-     * Returns the serial number of OTP fixed voice list.
-     * @param num serial number. eg: YFOTPFixedVoiceList2.OTPFVL_44
-     */
-    //% group="Output"
-    //% blockId=YFSENSORS_OTPFixedVoiceListNum2 weight=94 blockGap=15
-    //% block="%num"
-    //% num.fieldEditor="gridpicker" num.fieldOptions.columns=10
-    export function OTPFixedVoiceListNum2(num: YFOTPFixedVoiceList2): number {
-        return num;
-    }
 
     /**
      * Fixed voice broadcast module send data with no start bit.
@@ -937,7 +948,7 @@ namespace YFSENSORS {
      * @param serial_number voice serial number.
      * @param delayt delay time. eg: 50
      */
-    //% group="Output"
+    //% group="语音播报"
     //% blockId=YFSENSORS_voiceBroadcastModule weight=95 blockGap=15
     //% block="voice broadcast %vbmPin| play %serial_number=YFSENSORS_OTPFixedVoiceListNum || delay %delayt| ms"
     //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
@@ -950,13 +961,37 @@ namespace YFSENSORS {
         } else 
             basic.pause(50);
     }
+
+    /**
+     * Returns the serial number of OTP fixed voice list.
+     * @param num serial number. eg: YFOTPFixedVoiceList.OTPFVL_00
+     */
+    //% group="语音播报"
+    //% blockId=YFSENSORS_OTPFixedVoiceListNum weight=94 blockGap=15
+    //% block="%num| "
+    //% num.fieldEditor="gridpicker" num.fieldOptions.columns=10
+    export function OTPFixedVoiceListNum(num: YFOTPFixedVoiceList): number {
+        return num;
+    }
+
+    /**
+     * Returns the serial number of OTP fixed voice list.
+     * @param num serial number. eg: YFOTPFixedVoiceList2.OTPFVL_44
+     */
+    //% group="语音播报"
+    //% blockId=YFSENSORS_OTPFixedVoiceListNum2 weight=94 blockGap=15
+    //% block="%num"
+    //% num.fieldEditor="gridpicker" num.fieldOptions.columns=10
+    export function OTPFixedVoiceListNum2(num: YFOTPFixedVoiceList2): number {
+        return num;
+    }
     
     /**
      * Fixed voice broadcast module function : set volume level(0~7) / Stop play / loop play.
      * @param vbmfPin pin. eg: DigitalPin.P2
      * @param serial_num voice serial number of function. eg: YFOTPFixedVoiceFun.VolumeLevel4
      */
-    //% group="Output"
+    //% group="语音播报"
     //% blockId=YFSENSORS_voiceBroadcastModuleFun weight=93 blockGap=15
     //% block="voice broadcast %vbmfPin| %serial_num"
     //% vbmfPin.fieldEditor="gridpicker" vbmfPin.fieldOptions.columns=4
@@ -966,14 +1001,31 @@ namespace YFSENSORS {
         let snumber = serial_num;
         voiceBroadcastModuleSendDataWithS(vbmfPin, snumber);
     }
+    
+    /**
+     * Get the voice address of the digit at the specified place of a number.
+     * e.g. 数字 25 的 十位 => 语音"2"; 数字 105 的 十位 => 语音"零".
+     * Use with 千/百/十 voice words in "continuous play" to read a variable manually.
+     * @param num number. eg: 25
+     * @param place digit place. eg: YFVoiceDigitPlace.Tens
+     */
+    //% group="语音播报"
+    //% blockId=YFSENSORS_voiceDigitNum weight=92 blockGap=15
+    //% block="数字 %num 的 %place"
+    //% num.min=-9999 num.max=9999
+    //% place.fieldEditor="gridpicker" place.fieldOptions.columns=4
+    export function voiceDigitNum(num: number, place: YFVoiceDigitPlace): number {
+        let d = Math.floor(Math.abs(num) / place) % 10;
+        return d == 0 ? 0x2C : 0x22 + d; // 数字0 => 0x2C(零), 数字1~9 => 0x23~0x2B
+    }
 
     /**
      * Fixed voice broadcast module function : Continuous Play.
      * @param vbmPin pin. eg: DigitalPin.P2
      * @param serial_number voice serial number list array.
      */
-    //% group="Output"
-    //% blockId=YFSENSORS_voiceBroadcastModuleFunContPlay weight=92 blockGap=15
+    //% group="语音播报"
+    //% blockId=YFSENSORS_voiceBroadcastModuleFunContPlay weight=91 blockGap=15
     //% block="voice broadcast %vbmPin| continuous play %serial_number"
     //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
     //% inlineInputMode=inline
@@ -988,23 +1040,6 @@ namespace YFSENSORS {
         voiceBroadcastModuleSendData(vbmPin, YFOTPFixedVoiceFun2.TailCode); // 尾码
         checksum += YFOTPFixedVoiceFun2.TailCode;
         voiceBroadcastModuleSendData(vbmPin, (checksum & 0xFF)); // 校验和
-    }
-
-    /**
-     * Get the voice address of the digit at the specified place of a number.
-     * e.g. 数字 25 的 十位 => 语音"2"; 数字 105 的 十位 => 语音"零".
-     * Use with 千/百/十 voice words in "continuous play" to read a variable manually.
-     * @param num number. eg: 25
-     * @param place digit place. eg: YFVoiceDigitPlace.Tens
-     */
-    //% group="Output"
-    //% blockId=YFSENSORS_voiceDigitNum weight=92 blockGap=15
-    //% block="数字 %num 的 %place"
-    //% num.min=-9999 num.max=9999
-    //% place.fieldEditor="gridpicker" place.fieldOptions.columns=4
-    export function voiceDigitNum(num: number, place: YFVoiceDigitPlace): number {
-        let d = Math.floor(Math.abs(num) / place) % 10;
-        return d == 0 ? 0x2C : 0x22 + d; // 数字0 => 0x2C(零), 数字1~9 => 0x23~0x2B
     }
 
     /**
@@ -1061,7 +1096,7 @@ namespace YFSENSORS {
      * 校验和在展开全部数值之后统一计算。
      * @param vbmPin pin. eg: DigitalPin.P2
      */
-    //% group="Output"
+    //% group="语音播报"
     //% blockId=YFSENSORS_voiceBroadcastModuleSay weight=92 blockGap=15
     //% block="voice broadcast %vbmPin| say %w1=YFSENSORS_sayWordPick| %w2=YFSENSORS_sayWordPick| %w3=YFSENSORS_sayWordPick| %w4=YFSENSORS_sayWordPick || %w5=YFSENSORS_sayWordPick| %w6=YFSENSORS_sayWordPick| %w7=YFSENSORS_sayWordPick| %w8=YFSENSORS_sayWordPick"
     //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
@@ -1156,7 +1191,7 @@ namespace YFSENSORS {
      * Connects the MP3 audio playback module to the specified pin.
      * @param pin_data data pin. eg: DigitalPin.P2
      */
-    //% group="Output"
+    //% group="MP3 Audio Playback"
     //% blockId="YFSENSORS_audioPlaybackModule_connectPin" weight=90 blockGap=15
     //% block="connect MP3 audio playback module at %pin_data"
     //% pin_data.fieldEditor="gridpicker" pin_data.fieldOptions.columns=4 pin_data.fieldOptions.tooltips="false"
@@ -1205,7 +1240,7 @@ namespace YFSENSORS {
      * MP3 audio playback module select specified track(1-255) with no play.
      * @param specified_track mp3 module specified track number. eg: 1
      */
-    //% group="Output"
+    //% group="MP3 Audio Playback"
     //% blockId=YFSENSORS_audioPlaybackModuleSelectTrackNum weight=90 blockGap=15
     //% block="audio playback select specified track %specified_track| no play"
     //% specified_track.min=1 specified_track.max=255
@@ -1226,7 +1261,7 @@ namespace YFSENSORS {
      * MP3 audio playback module Playback settings.
      * @param specified_fun mp3 module specified track number. eg: YFAudioPlaybackFunWithNum.SelectPlay
      */
-    //% group="Output"
+    //% group="MP3 Audio Playback"
     //% blockId=YFSENSORS_audioPlaybackModuleFunSelect weight=89 blockGap=15
     //% block="audio playback %specified_fun"
     //% specified_fun.fieldEditor="gridpicker" specified_fun.fieldOptions.columns=2
@@ -1239,7 +1274,7 @@ namespace YFSENSORS {
      * @param specified_fun mp3 module specified function code. eg: YFAudioPlaybackFunWithNum.SelectPlay
      * @param specified_track mp3 module specified track number. eg: 1
      */
-    //% group="Output"
+    //% group="MP3 Audio Playback"
     //% blockId=YFSENSORS_audioPlaybackModuleFunWithNum weight=88 blockGap=15
     //% block="audio playback %specified_fun| %specified_track"
     //% specified_fun.fieldEditor="gridpicker" specified_fun.fieldOptions.columns=2
@@ -1272,7 +1307,7 @@ namespace YFSENSORS {
      * MP3 audio playback module Playback settings.
      * @param specified_fun mp3 module specified function code. eg: YFAudioPlaybackFun.Play
      */
-    //% group="Output"
+    //% group="MP3 Audio Playback"
     //% blockId=YFSENSORS_audioPlaybackModuleFun weight=86 blockGap=15
     //% block="audio playback %specified_fun"
     //% specified_fun.fieldEditor="gridpicker" specified_fun.fieldOptions.columns=3
@@ -1285,7 +1320,7 @@ namespace YFSENSORS {
      * @param pin_busy busy pin. eg: DigitalPin.P1
      * @param m_busy mp3 module or voice broadcast. eg: YFMVModule.MP3_AUDIO
      */
-    //% group="Output"
+    //% group="MP3 Audio Playback"
     //% blockId=YFSENSORS_readBusyPin weight=80 blockGap=15
     //% block="%m_busy read busy pin %pin_busy"
     //% pin_busy.fieldEditor="gridpicker" pin_busy.fieldOptions.columns=4
@@ -1304,7 +1339,7 @@ namespace YFSENSORS {
      * @param pin_vrm busy pin. eg: DigitalPin.P1
      * @param vrmfun voice recorder module function. eg: YFVRMFunction.PLAY_ONCE
      */
-    //% group="Output"
+    //% group="录放模块"
     //% blockId=YFSENSORS_voiceRecorderModule weight=84 blockGap=15
     //% block="voice recorder module %pin_vrm| %vrmfun"
     //% pin_vrm.fieldEditor="gridpicker" pin_vrm.fieldOptions.columns=4
@@ -1326,40 +1361,6 @@ namespace YFSENSORS {
             pins.digitalWritePin(pin_vrm, 0)
         } else if (vrmfun == YFVRMFunction.SPEAKER_DISABLE) {
             pins.digitalWritePin(pin_vrm, 1)
-        }
-    }
-
-    ///////////////////// Output - Traffic Light module ///////////////////////
-    /**
-     * Traffic Light module light up red, green or yellow led.
-     * @param tlm1Pin pin 1. eg: DigitalPin.P1
-     * @param tlm2Pin pin 2. eg: DigitalPin.P2
-     * @param wColor which color led. eg: YFTrafficLightLED.AllTurnOFF
-     */
-    //% group="Output"
-    //% blockId=YFSENSORS_trafficLightModule weight=80 blockGap=15
-    //% block="traffic light %tlm1Pin| %tlm2Pin| %wColor"
-    //% tlm1Pin.fieldEditor="gridpicker" tlm1Pin.fieldOptions.columns=4
-    //% tlm2Pin.fieldEditor="gridpicker" tlm2Pin.fieldOptions.columns=4
-    //% wColor.fieldEditor="gridpicker" wColor.fieldOptions.columns=2
-    export function trafficLightModule(tlm1Pin: DigitalPin, tlm2Pin: DigitalPin, wColor: YFTrafficLightLED): void {
-        switch (wColor) {
-            case YFTrafficLightLED.RedLED:            // Red LED
-                pins.digitalWritePin(tlm1Pin, 0);
-                pins.digitalWritePin(tlm2Pin, 1);
-                break;
-            case YFTrafficLightLED.YellowLED:         // Yellow LED
-                pins.digitalWritePin(tlm1Pin, 1);
-                pins.digitalWritePin(tlm2Pin, 0);
-                break;
-            case YFTrafficLightLED.GreenLED:          // Green LED
-                pins.digitalWritePin(tlm1Pin, 1);
-                pins.digitalWritePin(tlm2Pin, 1);
-                break;
-            default: // YFTrafficLightLED.AllTurnOFF: // all lights turn off
-                pins.digitalWritePin(tlm1Pin, 0);
-                pins.digitalWritePin(tlm2Pin, 0);
-                break;
         }
     }
 
