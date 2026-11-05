@@ -434,6 +434,18 @@ enum YFOTPFixedVoiceFunMute {
     MuteCode = 0xF4
 }
 
+/*************************  Output - OTP voice digit place  *************************/
+enum YFVoiceDigitPlace {
+    //% blockId="YFVDP_Ones" block="个位"
+    Ones = 1,
+    //% blockId="YFVDP_Tens" block="十位"
+    Tens = 10,
+    //% blockId="YFVDP_Hundreds" block="百位"
+    Hundreds = 100,
+    //% blockId="YFVDP_Thousands" block="千位"
+    Thousands = 1000
+}
+
 /*************************  Output - MP3 audio playback module function  *************************/
 enum YFAudioPlaybackFunWithNum {
     //% blockId="YFAPF_SelectPlay" block="Select Play"
@@ -744,19 +756,20 @@ namespace YFSENSORS {
     }
 
     /**
-     * Convert digit 0~9 to the fixed voice serial number.
-     * Can be used in "play" slot or inside "continuous play" list.
-     * @param num digit. eg: 5
+     * Get the voice address of the digit at the specified place of a number.
+     * e.g. 数字 25 的 十位 => 语音"2"; 数字 105 的 十位 => 语音"零".
+     * Use with 千/百/十 voice words in "continuous play" to read a variable manually.
+     * @param num number. eg: 25
+     * @param place digit place. eg: YFVoiceDigitPlace.Tens
      */
     //% group="Output"
     //% blockId=YFSENSORS_voiceDigitNum weight=94 blockGap=15
-    //% block="数字 %num"
-    //% num.min=0 num.max=9
-    export function voiceDigitNum(num: number): number {
-        num = Math.floor(num);
-        if (num <= 0) return 0x2C; // 数字0
-        if (num > 9) num = 9;
-        return 0x22 + num; // 数字1~9 => 0x23~0x2B
+    //% block="数字 %num 的 %place"
+    //% num.min=-9999 num.max=9999
+    //% place.fieldEditor="gridpicker" place.fieldOptions.columns=4
+    export function voiceDigitNum(num: number, place: YFVoiceDigitPlace): number {
+        let d = Math.floor(Math.abs(num) / place) % 10;
+        return d == 0 ? 0x2C : 0x22 + d; // 数字0 => 0x2C(零), 数字1~9 => 0x23~0x2B
     }
 
     /**
