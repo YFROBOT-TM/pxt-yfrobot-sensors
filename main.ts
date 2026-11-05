@@ -756,23 +756,6 @@ namespace YFSENSORS {
     }
 
     /**
-     * Get the voice address of the digit at the specified place of a number.
-     * e.g. 数字 25 的 十位 => 语音"2"; 数字 105 的 十位 => 语音"零".
-     * Use with 千/百/十 voice words in "continuous play" to read a variable manually.
-     * @param num number. eg: 25
-     * @param place digit place. eg: YFVoiceDigitPlace.Tens
-     */
-    //% group="Output"
-    //% blockId=YFSENSORS_voiceDigitNum weight=94 blockGap=15
-    //% block="数字 %num 的 %place"
-    //% num.min=-9999 num.max=9999
-    //% place.fieldEditor="gridpicker" place.fieldOptions.columns=4
-    export function voiceDigitNum(num: number, place: YFVoiceDigitPlace): number {
-        let d = Math.floor(Math.abs(num) / place) % 10;
-        return d == 0 ? 0x2C : 0x22 + d; // 数字0 => 0x2C(零), 数字1~9 => 0x23~0x2B
-    }
-
-    /**
      * Fixed voice broadcast module send data with no start bit.
      * param vbmPin pin.
      * param serial_number voice serial number.
@@ -864,6 +847,23 @@ namespace YFSENSORS {
         voiceBroadcastModuleSendData(vbmPin, YFOTPFixedVoiceFun2.TailCode); // 尾码
         checksum += YFOTPFixedVoiceFun2.TailCode;
         voiceBroadcastModuleSendData(vbmPin, (checksum & 0xFF)); // 校验和
+    }
+
+    /**
+     * Get the voice address of the digit at the specified place of a number.
+     * e.g. 数字 25 的 十位 => 语音"2"; 数字 105 的 十位 => 语音"零".
+     * Use with 千/百/十 voice words in "continuous play" to read a variable manually.
+     * @param num number. eg: 25
+     * @param place digit place. eg: YFVoiceDigitPlace.Tens
+     */
+    //% group="Output"
+    //% blockId=YFSENSORS_voiceDigitNum weight=92 blockGap=15
+    //% block="数字 %num 的 %place"
+    //% num.min=-9999 num.max=9999
+    //% place.fieldEditor="gridpicker" place.fieldOptions.columns=4
+    export function voiceDigitNum(num: number, place: YFVoiceDigitPlace): number {
+        let d = Math.floor(Math.abs(num) / place) % 10;
+        return d == 0 ? 0x2C : 0x22 + d; // 数字0 => 0x2C(零), 数字1~9 => 0x23~0x2B
     }
 
     /**
