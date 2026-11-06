@@ -1089,6 +1089,41 @@ namespace YFSENSORS {
         return list;
     }
 
+    
+    /**
+     * Fixed voice broadcast module broadcast a number(0~9999) in Chinese reading,
+     * e.g. 25 => "二 十 五"(二十五), 105 => "一 百 零 五", using 十/百/千 in voice list.
+     * @param vbmPin pin. eg: DigitalPin.P2
+     * @param num the number to broadcast. eg: 25
+     * @param delayt delay time. eg: 50
+     */
+    //% group="语音播报"
+    //% blockId=YFSENSORS_voiceBroadcastModuleNum weight=84 blockGap=15
+    //% block="voice broadcast %vbmPin| broadcast number %num || delay %delayt| ms"
+    //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
+    //% num.min=0 num.max=9999
+    //% inlineInputMode=inline
+    export function voiceBroadcastModuleNum(vbmPin: DigitalPin, num: number, delayt: number = 50): void {
+        let list = voiceNumberToAddressList(num); // 中文读法展开（与整句连码共用）
+        voiceBroadcastModuleFunContPlay(vbmPin, list);
+        if (delayt > 50) {
+            basic.pause(delayt);
+        } else
+            basic.pause(50);
+    }
+
+    /**
+     * Returns the mute code.
+     * @param mute mute code.
+     */
+    //% group="语音播报"
+    //% blockId=YFSENSORS_OTPFixedVoiceMute weight=82 blockGap=15
+    //% block="%mute"
+    //% num.fieldEditor="gridpicker" num.fieldOptions.columns=10
+    export function OTPFixedVoiceMute(mute: YFOTPFixedVoiceFunMute): number {
+        return mute;
+    }
+
     /**
      * 整句连码播放：一个积木 = 一句完整的话，帧头/帧尾/校验和自动处理。
      * 词槽可选固定词条（下拉），也可拖入"数值"值块（可接变量/传感器值，运行时展开中文读法）。
@@ -1097,7 +1132,7 @@ namespace YFSENSORS {
      * @param vbmPin pin. eg: DigitalPin.P2
      */
     //% group="语音播报"
-    //% blockId=YFSENSORS_voiceBroadcastModuleSay weight=92 blockGap=15
+    //% blockId=YFSENSORS_voiceBroadcastModuleSay weight=80 blockGap=15
     //% block="voice broadcast %vbmPin| say %w1=YFSENSORS_sayWordPick| %w2=YFSENSORS_sayWordPick| %w3=YFSENSORS_sayWordPick| %w4=YFSENSORS_sayWordPick || %w5=YFSENSORS_sayWordPick| %w6=YFSENSORS_sayWordPick| %w7=YFSENSORS_sayWordPick| %w8=YFSENSORS_sayWordPick"
     //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
     //% expandableArgumentMode="toggle"
@@ -1143,7 +1178,7 @@ namespace YFSENSORS {
      * @param num number. eg: 25
      */
     //% group="语音播报"
-    //% blockId=YFSENSORS_voiceNumberMark weight=91 blockGap=15
+    //% blockId=YFSENSORS_voiceNumberMark weight=75 blockGap=15
     //% block="数值 %num"
     //% num.min=0 num.max=9999
     export function voiceNumberMark(num: number): number {
@@ -1152,39 +1187,6 @@ namespace YFSENSORS {
         return -(Math.floor(num) + 2);
     }
 
-    /**
-     * Fixed voice broadcast module broadcast a number(0~9999) in Chinese reading,
-     * e.g. 25 => "二 十 五"(二十五), 105 => "一 百 零 五", using 十/百/千 in voice list.
-     * @param vbmPin pin. eg: DigitalPin.P2
-     * @param num the number to broadcast. eg: 25
-     * @param delayt delay time. eg: 50
-     */
-    //% group="Output"
-    //% blockId=YFSENSORS_voiceBroadcastModuleNum weight=92 blockGap=15
-    //% block="voice broadcast %vbmPin| broadcast number %num || delay %delayt| ms"
-    //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
-    //% num.min=0 num.max=9999
-    //% inlineInputMode=inline
-    export function voiceBroadcastModuleNum(vbmPin: DigitalPin, num: number, delayt: number = 50): void {
-        let list = voiceNumberToAddressList(num); // 中文读法展开（与整句连码共用）
-        voiceBroadcastModuleFunContPlay(vbmPin, list);
-        if (delayt > 50) {
-            basic.pause(delayt);
-        } else
-            basic.pause(50);
-    }
-
-    /**
-     * Returns the mute code.
-     * @param mute mute code.
-     */
-    //% group="Output"
-    //% blockId=YFSENSORS_OTPFixedVoiceMute weight=91 blockGap=15
-    //% block="%mute"
-    //% num.fieldEditor="gridpicker" num.fieldOptions.columns=10
-    export function OTPFixedVoiceMute(mute: YFOTPFixedVoiceFunMute): number {
-        return mute;
-    }
 
     ///////////////////// Output - MP3 audio playback module ///////////////////////
     /**
