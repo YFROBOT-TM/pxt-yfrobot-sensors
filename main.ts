@@ -1160,17 +1160,6 @@ namespace YFSENSORS {
         voiceBroadcastModuleSendData(vbmPin, checksum % 256); // 校验和基于展开后的全部字节
     }
 
-    /**
-     * 说一句话积木的词槽选择器（shadow，默认空槽；不单独出现在工具箱）。
-     * @param word word. eg: YFSayWord.SAY_EMPTY
-     */
-    //% advanced=true
-    //% blockId=YFSENSORS_sayWordPick weight=8 blockGap=15
-    //% block="%word"
-    //% word.fieldEditor="gridpicker" word.fieldOptions.columns=10
-    export function sayWordPick(word: YFSayWord = YFSayWord.SAY_EMPTY): number {
-        return word;
-    }
 
     /**
      * 数值值块：把运行时数值(0~9999)编码成负数标记，拖入"说一句话"积木的词槽，
@@ -1187,6 +1176,17 @@ namespace YFSENSORS {
         return -(Math.floor(num) + 2);
     }
 
+    /**
+     * 说一句话积木的词槽选择器（shadow，默认空槽）。
+     * @param word word. eg: YFSayWord.SAY_EMPTY
+     */
+    //% group="语音播报"
+    //% blockId=YFSENSORS_sayWordPick weight=70 blockGap=15
+    //% block="%word"
+    //% word.fieldEditor="gridpicker" word.fieldOptions.columns=10
+    export function sayWordPick(word: YFSayWord = YFSayWord.SAY_EMPTY): number {
+        return word;
+    }
 
     ///////////////////// Output - MP3 audio playback module ///////////////////////
     /**
