@@ -905,10 +905,10 @@ namespace YFSENSORS {
         }
     }
 
-    ///////////////////// Output - OTP Fixed voice broadcast module ///////////////////////
+    ///////////////////// Output - OTP Fixed voice broadcast module  ///////////////////////
 
     /**
-     * Fixed voice broadcast module send data with no start bit.
+     * Voice broadcast module send data with no start bit.
      * param vbmPin pin.
      * param serial_number voice serial number.
      */
@@ -930,7 +930,7 @@ namespace YFSENSORS {
     }
 
     /**
-     * Fixed voice broadcast module send data with start bit.
+     * Voice broadcast module send data with start bit.
      * param vbmPin pin.
      * param serial_number voice serial number.
      */
@@ -943,13 +943,13 @@ namespace YFSENSORS {
     }
 
     /**
-     * Fixed voice broadcast module play.
+     * Voice broadcast module play. 1-语音播报播放[]
      * @param vbmPin pin. eg: DigitalPin.P2
      * @param serial_number voice serial number.
      * @param delayt delay time. eg: 50
      */
     //% group="语音播报"
-    //% blockId=YFSENSORS_voiceBroadcastModule weight=95 blockGap=15
+    //% blockId=YFSENSORS_voiceBroadcastModule weight=98 blockGap=15
     //% block="voice broadcast %vbmPin| play %serial_number=YFSENSORS_OTPFixedVoiceListNum || delay %delayt| ms"
     //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
     //% inlineInputMode=inline
@@ -963,11 +963,11 @@ namespace YFSENSORS {
     }
 
     /**
-     * Returns the serial number of OTP fixed voice list.
+     * Returns the serial number of OTP fixed voice list. 2-语音播报列表1
      * @param num serial number. eg: YFOTPFixedVoiceList.OTPFVL_00
      */
     //% group="语音播报"
-    //% blockId=YFSENSORS_OTPFixedVoiceListNum weight=94 blockGap=15
+    //% blockId=YFSENSORS_OTPFixedVoiceListNum weight=97 blockGap=15
     //% block="%num| "
     //% num.fieldEditor="gridpicker" num.fieldOptions.columns=10
     export function OTPFixedVoiceListNum(num: YFOTPFixedVoiceList): number {
@@ -975,11 +975,11 @@ namespace YFSENSORS {
     }
 
     /**
-     * Returns the serial number of OTP fixed voice list.
+     * Returns the serial number of OTP fixed voice list. 3-语音播报列表2
      * @param num serial number. eg: YFOTPFixedVoiceList2.OTPFVL_44
      */
     //% group="语音播报"
-    //% blockId=YFSENSORS_OTPFixedVoiceListNum2 weight=94 blockGap=15
+    //% blockId=YFSENSORS_OTPFixedVoiceListNum2 weight=96 blockGap=15
     //% block="%num"
     //% num.fieldEditor="gridpicker" num.fieldOptions.columns=10
     export function OTPFixedVoiceListNum2(num: YFOTPFixedVoiceList2): number {
@@ -987,12 +987,12 @@ namespace YFSENSORS {
     }
     
     /**
-     * Fixed voice broadcast module function : set volume level(0~7) / Stop play / loop play.
+     * Voice broadcast module function : set volume level(0~7) / Stop play / loop play. 4-语音播报 设置[]
      * @param vbmfPin pin. eg: DigitalPin.P2
      * @param serial_num voice serial number of function. eg: YFOTPFixedVoiceFun.VolumeLevel4
      */
     //% group="语音播报"
-    //% blockId=YFSENSORS_voiceBroadcastModuleFun weight=93 blockGap=15
+    //% blockId=YFSENSORS_voiceBroadcastModuleFun weight=95 blockGap=15
     //% block="voice broadcast %vbmfPin| %serial_num"
     //% vbmfPin.fieldEditor="gridpicker" vbmfPin.fieldOptions.columns=4
     //% serial_num.fieldEditor="gridpicker" serial_num.fieldOptions.columns=4
@@ -1000,46 +1000,6 @@ namespace YFSENSORS {
     export function voiceBroadcastModuleFun(vbmfPin: DigitalPin, serial_num: YFOTPFixedVoiceFun): void {
         let snumber = serial_num;
         voiceBroadcastModuleSendDataWithS(vbmfPin, snumber);
-    }
-    
-    /**
-     * Get the voice address of the digit at the specified place of a number.
-     * e.g. 数字 25 的 十位 => 语音"2"; 数字 105 的 十位 => 语音"零".
-     * Use with 千/百/十 voice words in "continuous play" to read a variable manually.
-     * @param num number. eg: 25
-     * @param place digit place. eg: YFVoiceDigitPlace.Tens
-     */
-    //% group="语音播报"
-    //% blockId=YFSENSORS_voiceDigitNum weight=92 blockGap=15
-    //% block="数字 %num 的 %place"
-    //% num.min=-9999 num.max=9999
-    //% place.fieldEditor="gridpicker" place.fieldOptions.columns=4
-    export function voiceDigitNum(num: number, place: YFVoiceDigitPlace): number {
-        let d = Math.floor(Math.abs(num) / place) % 10;
-        return d == 0 ? 0x2C : 0x22 + d; // 数字0 => 0x2C(零), 数字1~9 => 0x23~0x2B
-    }
-
-    /**
-     * Fixed voice broadcast module function : Continuous Play.
-     * @param vbmPin pin. eg: DigitalPin.P2
-     * @param serial_number voice serial number list array.
-     */
-    //% group="语音播报"
-    //% blockId=YFSENSORS_voiceBroadcastModuleFunContPlay weight=91 blockGap=15
-    //% block="voice broadcast %vbmPin| continuous play %serial_number"
-    //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
-    //% inlineInputMode=inline
-    export function voiceBroadcastModuleFunContPlay(vbmPin: DigitalPin, serial_number: number[]): void {
-        let checksum = 0;
-        voiceBroadcastModuleSendDataWithS(vbmPin, YFOTPFixedVoiceFun2.HeadCode); // 头码
-        checksum += YFOTPFixedVoiceFun2.HeadCode;
-        for (let index = 0; index < serial_number.length; index++) {
-            voiceBroadcastModuleSendData(vbmPin, serial_number[index]); // 语音列表码
-            checksum += serial_number[index];
-        }
-        voiceBroadcastModuleSendData(vbmPin, YFOTPFixedVoiceFun2.TailCode); // 尾码
-        checksum += YFOTPFixedVoiceFun2.TailCode;
-        voiceBroadcastModuleSendData(vbmPin, (checksum & 0xFF)); // 校验和
     }
 
     /**
@@ -1089,16 +1049,15 @@ namespace YFSENSORS {
         return list;
     }
 
-    
     /**
-     * Fixed voice broadcast module broadcast a number(0~9999) in Chinese reading,
+     * Voice broadcast module broadcast a number(0~9999) in Chinese reading,  5-语音播报 播报数字[]
      * e.g. 25 => "二 十 五"(二十五), 105 => "一 百 零 五", using 十/百/千 in voice list.
      * @param vbmPin pin. eg: DigitalPin.P2
      * @param num the number to broadcast. eg: 25
      * @param delayt delay time. eg: 50
      */
     //% group="语音播报"
-    //% blockId=YFSENSORS_voiceBroadcastModuleNum weight=84 blockGap=15
+    //% blockId=YFSENSORS_voiceBroadcastModuleNum weight=94 blockGap=15
     //% block="voice broadcast %vbmPin| broadcast number %num || delay %delayt| ms"
     //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
     //% num.min=0 num.max=9999
@@ -1113,11 +1072,52 @@ namespace YFSENSORS {
     }
 
     /**
-     * Returns the mute code.
+     * Voice broadcast module function : Continuous Play.  6-语音播报 连续播放[]
+     * @param vbmPin pin. eg: DigitalPin.P2
+     * @param serial_number voice serial number list array.
+     */
+    //% group="语音播报"
+    //% blockId=YFSENSORS_voiceBroadcastModuleFunContPlay weight=93 blockGap=15
+    //% block="voice broadcast %vbmPin| continuous play %serial_number"
+    //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
+    //% inlineInputMode=inline
+    export function voiceBroadcastModuleFunContPlay(vbmPin: DigitalPin, serial_number: number[]): void {
+        let checksum = 0;
+        voiceBroadcastModuleSendDataWithS(vbmPin, YFOTPFixedVoiceFun2.HeadCode); // 头码
+        checksum += YFOTPFixedVoiceFun2.HeadCode;
+        for (let index = 0; index < serial_number.length; index++) {
+            voiceBroadcastModuleSendData(vbmPin, serial_number[index]); // 语音列表码
+            checksum += serial_number[index];
+        }
+        voiceBroadcastModuleSendData(vbmPin, YFOTPFixedVoiceFun2.TailCode); // 尾码
+        checksum += YFOTPFixedVoiceFun2.TailCode;
+        voiceBroadcastModuleSendData(vbmPin, (checksum & 0xFF)); // 校验和
+    }
+    
+    /**
+     * Get the voice address of the digit at the specified place of a number.  7-语音播报 数字[]的[位]
+     * e.g. 数字 25 的 十位 => 语音"2"; 数字 105 的 十位 => 语音"零".
+     * Use with 千/百/十 voice words in "continuous play" to read a variable manually.
+     * @param num number. eg: 25
+     * @param place digit place. eg: YFVoiceDigitPlace.Tens
+     */
+    //% group="语音播报"
+    //% blockId=YFSENSORS_voiceDigitNum weight=92 blockGap=15
+    //% block="数字 %num 的 %place"
+    //% num.min=-9999 num.max=9999
+    //% place.fieldEditor="gridpicker" place.fieldOptions.columns=4
+    export function voiceDigitNum(num: number, place: YFVoiceDigitPlace): number {
+        let d = Math.floor(Math.abs(num) / place) % 10;
+        return d == 0 ? 0x2C : 0x22 + d; // 数字0 => 0x2C(零), 数字1~9 => 0x23~0x2B
+    }
+
+
+    /**
+     * Returns the mute code.  8-语音播报 [静音]
      * @param mute mute code.
      */
     //% group="语音播报"
-    //% blockId=YFSENSORS_OTPFixedVoiceMute weight=82 blockGap=15
+    //% blockId=YFSENSORS_OTPFixedVoiceMute weight=90 blockGap=15
     //% block="%mute"
     //% num.fieldEditor="gridpicker" num.fieldOptions.columns=10
     export function OTPFixedVoiceMute(mute: YFOTPFixedVoiceFunMute): number {
@@ -1132,7 +1132,7 @@ namespace YFSENSORS {
      * @param vbmPin pin. eg: DigitalPin.P2
      */
     //% group="语音播报"
-    //% blockId=YFSENSORS_voiceBroadcastModuleSay weight=80 blockGap=15
+    //% blockId=YFSENSORS_voiceBroadcastModuleSay weight=86 blockGap=15
     //% block="voice broadcast %vbmPin| say %w1=YFSENSORS_sayWordPick| %w2=YFSENSORS_sayWordPick| %w3=YFSENSORS_sayWordPick| %w4=YFSENSORS_sayWordPick || %w5=YFSENSORS_sayWordPick| %w6=YFSENSORS_sayWordPick| %w7=YFSENSORS_sayWordPick| %w8=YFSENSORS_sayWordPick"
     //% vbmPin.fieldEditor="gridpicker" vbmPin.fieldOptions.columns=4
     //% expandableArgumentMode="toggle"
@@ -1178,7 +1178,7 @@ namespace YFSENSORS {
      * @param num number. eg: 25
      */
     //% group="语音播报"
-    //% blockId=YFSENSORS_voiceNumberMark weight=75 blockGap=15
+    //% blockId=YFSENSORS_voiceNumberMark weight=80 blockGap=15
     //% block="数值 %num"
     //% num.min=0 num.max=9999
     export function voiceNumberMark(num: number): number {
