@@ -768,6 +768,13 @@ enum YFDHT11_state {
     DHT11_humidity,
 }
 
+enum YFRotaryDir {
+    //% block="counter-clockwise" enumval=0
+    CCW,
+    //% block="clockwise" enumval=1
+    CW,
+}
+
 //% color="#45b787" weight=10 icon="\uf12e"
 namespace YFSENSORS {
     
@@ -1608,6 +1615,225 @@ namespace YFSENSORS {
     //     }
     // }
     
+    ///////////////////// Rotary Encoder (EC11) ///////////////////////
+    // 四状态正交译码表，下标 = 上次状态 * 4 + 本次状态
+    // +1 / -1 表示前进/后退一个正交状态，0 表示没变化或丢失了半个周期
+    const RE_QDEC = [
+        0, 1, -1, 0,
+        -1, 0, 0, 1,
+        1, 0, 0, -1,
+        0, -1, 1, 0
+    ]
+    const RE_DEBOUNCE_MS = 3
+    const RE_POLL_MS = 5
+
+    let reClkPin: DigitalPin = null
+    let reDtPin: DigitalPin = null
+    // 每格对应的正交状态数：实测本模块相邻两格之间只走 2 个状态（一个完整周期 = 2 格）
+    let rePulsesPerDetent = 2
+    let reStepAcc = 0
+    let reStepCount = 0
+    let reLastDir = YFRotaryDir.CW
+    let reReversed = false
+    let reLastState = -1
+    let reLastStepAt = 0
+    let reOnCcw: () => void = null
+    let reOnCw: () => void = null
+    let reOnAny: () => void = null
+    let reMonitorStarted = false
+
+    /**
+     * Connect the rotary encoder module to the specified pins.
+     * @param clk A phase (CLK) pin. eg: DigitalPin.P1
+     * @param dt B phase (DT) pin. eg: DigitalPin.P2
+     */
+    //% subcategory="RotaryEncoder"
+    //% blockId=YFSENSORS_rotaryEncoderInit weight=26 blockGap=8
+    //% block="connect rotary encoder |A(CLK) %clk |B(DT) %dt"
+    //% clk.fieldEditor="gridpicker" clk.fieldOptions.columns=4 clk.fieldOptions.tooltips="false"
+    //% dt.fieldEditor="gridpicker" dt.fieldOptions.columns=4 dt.fieldOptions.tooltips="false"
+    //% inlineInputMode=inline
+    export function rotaryEncoderInit(clk: DigitalPin, dt: DigitalPin): void {
+        reClkPin = clk
+        reDtPin = dt
+
+        reStepCount = 0
+        reStepAcc = 0
+        reLastDir = YFRotaryDir.CW
+        reLastState = -1
+        reLastStepAt = 0
+
+        // EC11 的 A/B 为干接点/开漏输出，开内部上拉，没有外接上拉也能用
+        pins.setPull(clk, PinPullMode.PullUp)
+        pins.setPull(dt, PinPullMode.PullUp)
+
+        reLastState = ((pins.digitalReadPin(clk) << 1) | pins.digitalReadPin(dt))
+
+        // 先启动后台轮询：即使下面注册边沿事件失败，也能靠轮询正常工作
+        reStartMonitor()
+
+        // 硬件边沿事件：转得快时不丢格。四个回调共用同一套状态机，不会重复计数
+        try {
+            pins.onPulsed(clk, PulseValue.High, reSampleEncoder)
+            pins.onPulsed(clk, PulseValue.Low, reSampleEncoder)
+            pins.onPulsed(dt, PulseValue.High, reSampleEncoder)
+            pins.onPulsed(dt, PulseValue.Low, reSampleEncoder)
+        } catch (e) {
+            // 个别引脚/固件不支持脉冲事件时忽略，轮询继续工作
+        }
+    }
+
+    function reSampleEncoder(): void {
+        if (reClkPin == null || reDtPin == null) return
+
+        let a = pins.digitalReadPin(reClkPin)
+        let b = pins.digitalReadPin(reDtPin)
+        let state = ((a << 1) | b)
+        if (state == reLastState) return
+
+        let prev = reLastState
+        reLastState = state
+
+        if (prev < 0) return
+        let delta = RE_QDEC[prev * 4 + state]
+        if (delta == 0) return
+
+        let now = control.millis()
+        if (now - reLastStepAt < RE_DEBOUNCE_MS) return
+        reLastStepAt = now
+
+        // 旧版库中「A 相下降沿 + B 为高」= 顺时针，这里沿用同样的方向定义
+        let clockwise = delta < 0
+        if (reReversed) clockwise = !clockwise
+
+        reStepAcc += clockwise ? 1 : -1
+        if (reStepAcc >= rePulsesPerDetent) {
+            reStepAcc -= rePulsesPerDetent
+            reEmitStep(true)
+        } else if (reStepAcc <= -rePulsesPerDetent) {
+            reStepAcc += rePulsesPerDetent
+            reEmitStep(false)
+        }
+    }
+
+    function reEmitStep(clockwise: boolean): void {
+        reLastDir = clockwise ? YFRotaryDir.CW : YFRotaryDir.CCW
+        if (clockwise) reStepCount += 1
+        else reStepCount -= 1
+
+        let handler = clockwise ? reOnCw : reOnCcw
+        if (handler != null) control.runInParallel(handler)
+        if (reOnAny != null) control.runInParallel(reOnAny)
+    }
+
+    function reStartMonitor(): void {
+        if (reMonitorStarted) return
+        reMonitorStarted = true
+
+        control.inBackground(() => {
+            while (true) {
+                reSampleEncoder()
+                basic.pause(RE_POLL_MS)
+            }
+        })
+    }
+
+    /**
+     * Do something when the rotary encoder is turned one detent in the given direction.
+     * @param dir direction. eg: YFRotaryDir.CW
+     * @param body code to run when the event is raised
+     */
+    //% subcategory="RotaryEncoder"
+    //% blockId=YFSENSORS_rotaryEncoderOnRotate weight=25 blockGap=8
+    //% block="on rotary encoder turned %dir"
+    export function rotaryEncoderOnRotate(dir: YFRotaryDir, body: () => void): void {
+        if (dir == YFRotaryDir.CW) reOnCw = body
+        else reOnCcw = body
+    }
+
+    /**
+     * Do something when the rotary encoder is turned one detent in any direction.
+     * @param body code to run when the event is raised
+     */
+    //% subcategory="RotaryEncoder"
+    //% blockId=YFSENSORS_rotaryEncoderOnAnyRotate weight=24 blockGap=8
+    //% block="on rotary encoder turned (any direction)"
+    export function rotaryEncoderOnAnyRotate(body: () => void): void {
+        reOnAny = body
+    }
+
+    /**
+     * The direction of the last rotation.
+     */
+    //% subcategory="RotaryEncoder"
+    //% blockId=YFSENSORS_rotaryEncoderDirection weight=23 blockGap=8
+    //% block="turning direction"
+    export function rotaryEncoderDirection(): YFRotaryDir {
+        return reLastDir
+    }
+
+    /**
+     * The detent count of the rotary encoder: +1 for clockwise, -1 for counter-clockwise.
+     */
+    //% subcategory="RotaryEncoder"
+    //% blockId=YFSENSORS_rotaryEncoderCount weight=22 blockGap=8
+    //% block="rotary encoder count"
+    export function rotaryEncoderCount(): number {
+        return reStepCount
+    }
+
+    /**
+     * Clear the detent count of the rotary encoder.
+     */
+    //% subcategory="RotaryEncoder"
+    //% blockId=YFSENSORS_rotaryEncoderClearCount weight=21 blockGap=8
+    //% block="clear rotary encoder count"
+    export function rotaryEncoderClearCount(): void {
+        reStepCount = 0
+        reStepAcc = 0
+    }
+
+    /**
+     * Reverse the rotation direction (use it when A/B are swapped).
+     * @param enable whether to reverse. eg: true
+     */
+    //% subcategory="RotaryEncoder"
+    //% blockId=YFSENSORS_rotaryEncoderSetReverse weight=20 blockGap=8
+    //% block="reverse rotation direction %enable"
+    //% enable.shadow="toggleOnOff"
+    export function rotaryEncoderSetReverse(enable: boolean): void {
+        reReversed = !!enable
+        reStepAcc = 0
+    }
+
+    /**
+     * Set the detent count of the rotary encoder directly.
+     * @param value the new count. eg: 0
+     */
+    //% subcategory="RotaryEncoder"
+    //% blockId=YFSENSORS_rotaryEncoderSetCount weight=19 blockGap=8
+    //% block="set rotary encoder count to %value"
+    export function rotaryEncoderSetCount(value: number): void {
+        reStepCount = Math.round(value)
+        reStepAcc = 0
+    }
+
+    /**
+     * Set how many quadrature states one detent has. Default is 2.
+     * @param n states per detent. eg: 2
+     */
+    //% subcategory="RotaryEncoder"
+    //% blockId=YFSENSORS_rotaryEncoderSetPulsesPerDetent weight=18 blockGap=8
+    //% block="set pulses per detent to %n"
+    //% n.min=1 n.max=8 n.defl=2
+    export function rotaryEncoderSetPulsesPerDetent(n: number): void {
+        let v = Math.round(n)
+        if (v < 1) v = 1
+        if (v > 8) v = 8
+        rePulsesPerDetent = v
+        reStepAcc = 0
+    }
+
     ///////////////////// Output - Motor Drive ///////////////////////
     /**
      * Connects the Motor drive module to the specified pin.

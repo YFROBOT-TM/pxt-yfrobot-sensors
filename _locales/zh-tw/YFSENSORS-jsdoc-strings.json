@@ -72,5 +72,22 @@
   "YFSENSORS.analogInputModule": "讀取模擬輸入型傳感器模塊",
   "YFSENSORS.digitalInputModule": "讀取數字輸入型傳感器模塊（默認所有模塊觸發返回真）",
   "YFSENSORS.onEvent": "數字輸入型事件",
-  "YFSENSORS.dht11Sensor": "獲得DHT11傳感器的溫度或濕度。"
+  "YFSENSORS.dht11Sensor": "獲得DHT11傳感器的溫度或濕度。",
+  "YFSENSORS.rotaryEncoderInit": "把旋轉編碼器的 A(CLK)、B(DT) 接到指定腳位。請放在「當啟動時」裡，且在其它旋轉編碼器積木之前。",
+  "YFSENSORS.rotaryEncoderInit|param|clk": "A 相（CLK）腳位，例如：P1",
+  "YFSENSORS.rotaryEncoderInit|param|dt": "B 相（DT）腳位，例如：P2",
+  "YFSENSORS.rotaryEncoderOnRotate": "當旋轉編碼器往指定方向轉過一格時，執行一段程式。",
+  "YFSENSORS.rotaryEncoderOnRotate|param|dir": "轉動的方向，例如：順時針",
+  "YFSENSORS.rotaryEncoderOnRotate|param|body": "要執行的程式",
+  "YFSENSORS.rotaryEncoderOnAnyRotate": "當旋轉編碼器往任意方向轉過一格時，執行一段程式；方向可用「旋轉方向」積木讀取。",
+  "YFSENSORS.rotaryEncoderOnAnyRotate|param|body": "要執行的程式",
+  "YFSENSORS.rotaryEncoderDirection": "最近一次轉動的方向（順時針或逆時針）。通常搭配「當旋轉編碼器轉動時（任意方向）」使用。",
+  "YFSENSORS.rotaryEncoderCount": "旋轉編碼器的計數值：順時針一格加 1，逆時針一格減 1，可以為負數。",
+  "YFSENSORS.rotaryEncoderClearCount": "把旋轉編碼器的計數值歸零，從 0 重新開始。",
+  "YFSENSORS.rotaryEncoderSetReverse": "反轉旋轉方向：如果 A、B 兩條線接反了（順時針轉變成逆時針），打開這裡即可修正，不必重新接線。",
+  "YFSENSORS.rotaryEncoderSetReverse|param|enable": "是否反轉，例如：打開",
+  "YFSENSORS.rotaryEncoderSetCount": "直接設定計數值，例如做 0~100 的限幅時使用。",
+  "YFSENSORS.rotaryEncoderSetCount|param|value": "新的計數值，例如：0",
+  "YFSENSORS.rotaryEncoderSetPulsesPerDetent": "設定轉一格對應幾個脈衝，預設 2（轉一格計 1 次）。若轉一格跳 2 次就改成 4，若轉兩格才跳 1 次就改成 1。",
+  "YFSENSORS.rotaryEncoderSetPulsesPerDetent|param|n": "每格脈衝數，預設 2，例如：2"
 }

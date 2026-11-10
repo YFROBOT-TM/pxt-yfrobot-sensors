@@ -162,5 +162,17 @@
   "{id:category}YFSENSORS": "YFSENSORS",
   "{id:subcategory}MotorDrive": "電機驅動",
   "{id:subcategory}DigitalTube": "數碼管顯示",
-  "{id:subcategory}IR_Receiver": "紅外遙控"
+  "{id:subcategory}IR_Receiver": "紅外遙控",
+  "{id:subcategory}RotaryEncoder": "旋轉編碼器",
+  "YFRotaryDir.CCW|block": "逆時針",
+  "YFRotaryDir.CW|block": "順時針",
+  "YFSENSORS.rotaryEncoderInit|block": "連接旋轉編碼器|A(CLK) %clk |B(DT) %dt",
+  "YFSENSORS.rotaryEncoderOnRotate|block": "當旋轉編碼器 %dir 轉過一格時",
+  "YFSENSORS.rotaryEncoderOnAnyRotate|block": "當旋轉編碼器轉動時（任意方向）",
+  "YFSENSORS.rotaryEncoderDirection|block": "旋轉方向",
+  "YFSENSORS.rotaryEncoderCount|block": "旋轉編碼器計數值",
+  "YFSENSORS.rotaryEncoderClearCount|block": "旋轉編碼器計數值歸零",
+  "YFSENSORS.rotaryEncoderSetReverse|block": "反轉旋轉方向 %enable",
+  "YFSENSORS.rotaryEncoderSetCount|block": "將旋轉編碼器計數值設為 %value",
+  "YFSENSORS.rotaryEncoderSetPulsesPerDetent|block": "設定每格脈衝數為 %n"
 }

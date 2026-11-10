@@ -162,5 +162,17 @@
   "{id:category}YFSENSORS": "YFSENSORS",
   "{id:subcategory}MotorDrive": "电机驱动",
   "{id:subcategory}DigitalTube": "数码管显示",
-  "{id:subcategory}IR_Receiver": "红外遥控"
+  "{id:subcategory}IR_Receiver": "红外遥控",
+  "{id:subcategory}RotaryEncoder": "旋转编码器",
+  "YFRotaryDir.CCW|block": "逆时针",
+  "YFRotaryDir.CW|block": "顺时针",
+  "YFSENSORS.rotaryEncoderInit|block": "连接旋转编码器|A(CLK) %clk |B(DT) %dt",
+  "YFSENSORS.rotaryEncoderOnRotate|block": "当旋转编码器 %dir 转过一格时",
+  "YFSENSORS.rotaryEncoderOnAnyRotate|block": "当旋转编码器转动时（任意方向）",
+  "YFSENSORS.rotaryEncoderDirection|block": "旋转方向",
+  "YFSENSORS.rotaryEncoderCount|block": "旋转编码器计数值",
+  "YFSENSORS.rotaryEncoderClearCount|block": "旋转编码器计数值清零",
+  "YFSENSORS.rotaryEncoderSetReverse|block": "反转旋转方向 %enable",
+  "YFSENSORS.rotaryEncoderSetCount|block": "将旋转编码器计数值设为 %value",
+  "YFSENSORS.rotaryEncoderSetPulsesPerDetent|block": "设置每格脉冲数为 %n"
 }

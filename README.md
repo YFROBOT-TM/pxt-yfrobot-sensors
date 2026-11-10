@@ -58,6 +58,50 @@ YFSENSORS.turnRight(128)
 basic.showNumber(irButtonCode())
 ```
 
+## 旋转编码器（二级标签：旋转编码器）
+
+EC11 类旋转编码器模块，micro:bit V1.5 / V2 通用（纯 TypeScript 实现）。
+接线：A(CLK)→P1、B(DT)→P2、V→3V、GND→GND；模块未引出按键（SW）引脚。
+
+* 连接并显示计数值
+
+```blocks
+YFSENSORS.rotaryEncoderInit(DigitalPin.P1, DigitalPin.P2)
+basic.showNumber(YFSENSORS.rotaryEncoderCount())
+```
+
+* 顺时针 / 逆时针转一格各做一件事
+
+```blocks
+YFSENSORS.rotaryEncoderOnRotate(YFRotaryDir.CW, () => {
+    basic.showIcon(IconNames.Heart)
+})
+YFSENSORS.rotaryEncoderOnRotate(YFRotaryDir.CCW, () => {
+    basic.showIcon(IconNames.SmallHeart)
+})
+```
+
+* 计数值清零 / 直接设值 / 反转方向
+
+```blocks
+YFSENSORS.rotaryEncoderClearCount()
+YFSENSORS.rotaryEncoderSetCount(0)
+YFSENSORS.rotaryEncoderSetReverse(true)
+```
+
+* 灵敏度校正（默认每格 2 个脉冲，即转一格计 1 次）
+
+```blocks
+YFSENSORS.rotaryEncoderSetPulsesPerDetent(2)
+```
+
+> 转一格跳 2 次 → 改成 4；转两格才跳 1 次 → 改成 1。
+
+## 版本
+
+* 0.3.0 新增「旋转编码器」二级标签（EC11，转一格计 1 次，支持 V1.5 / V2）
+* 0.2.10 及以前：传感器 / 电机 / 数码管 / 红外等模块
+
 
 ## License
 
