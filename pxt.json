@@ -1,6 +1,6 @@
 {
     "name": "YFSENSORS",
-    "version": "0.3.0",
+    "version": "0.3.1",
     "description": "This is a MakeCode graphics programming extension for YFROBOT's sensors(lego) module. Includes rotary encoder (EC11) support.",
     "license": "MIT",
     "dependencies": {

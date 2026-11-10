@@ -1648,7 +1648,8 @@ namespace YFSENSORS {
      * @param dt B phase (DT) pin. eg: DigitalPin.P2
      */
     //% subcategory="RotaryEncoder"
-    //% blockId=YFSENSORS_rotaryEncoderInit weight=26 blockGap=8
+    //% group="Basic"
+    //% blockId=YFSENSORS_rotaryEncoderInit weight=110 blockGap=8
     //% block="connect rotary encoder |A(CLK) %clk |B(DT) %dt"
     //% clk.fieldEditor="gridpicker" clk.fieldOptions.columns=4 clk.fieldOptions.tooltips="false"
     //% dt.fieldEditor="gridpicker" dt.fieldOptions.columns=4 dt.fieldOptions.tooltips="false"
@@ -1744,7 +1745,8 @@ namespace YFSENSORS {
      * @param body code to run when the event is raised
      */
     //% subcategory="RotaryEncoder"
-    //% blockId=YFSENSORS_rotaryEncoderOnRotate weight=25 blockGap=8
+    //% group="Events"
+    //% blockId=YFSENSORS_rotaryEncoderOnRotate weight=109 blockGap=8
     //% block="on rotary encoder turned %dir"
     export function rotaryEncoderOnRotate(dir: YFRotaryDir, body: () => void): void {
         if (dir == YFRotaryDir.CW) reOnCw = body
@@ -1756,7 +1758,8 @@ namespace YFSENSORS {
      * @param body code to run when the event is raised
      */
     //% subcategory="RotaryEncoder"
-    //% blockId=YFSENSORS_rotaryEncoderOnAnyRotate weight=24 blockGap=8
+    //% group="Events"
+    //% blockId=YFSENSORS_rotaryEncoderOnAnyRotate weight=108 blockGap=8
     //% block="on rotary encoder turned (any direction)"
     export function rotaryEncoderOnAnyRotate(body: () => void): void {
         reOnAny = body
@@ -1766,7 +1769,8 @@ namespace YFSENSORS {
      * The direction of the last rotation.
      */
     //% subcategory="RotaryEncoder"
-    //% blockId=YFSENSORS_rotaryEncoderDirection weight=23 blockGap=8
+    //% group="Events"
+    //% blockId=YFSENSORS_rotaryEncoderDirection weight=107 blockGap=8
     //% block="turning direction"
     export function rotaryEncoderDirection(): YFRotaryDir {
         return reLastDir
@@ -1776,7 +1780,8 @@ namespace YFSENSORS {
      * The detent count of the rotary encoder: +1 for clockwise, -1 for counter-clockwise.
      */
     //% subcategory="RotaryEncoder"
-    //% blockId=YFSENSORS_rotaryEncoderCount weight=22 blockGap=8
+    //% group="Basic"
+    //% blockId=YFSENSORS_rotaryEncoderCount weight=106 blockGap=8
     //% block="rotary encoder count"
     export function rotaryEncoderCount(): number {
         return reStepCount
@@ -1786,7 +1791,8 @@ namespace YFSENSORS {
      * Clear the detent count of the rotary encoder.
      */
     //% subcategory="RotaryEncoder"
-    //% blockId=YFSENSORS_rotaryEncoderClearCount weight=21 blockGap=8
+    //% group="Basic"
+    //% blockId=YFSENSORS_rotaryEncoderClearCount weight=105 blockGap=8
     //% block="clear rotary encoder count"
     export function rotaryEncoderClearCount(): void {
         reStepCount = 0
@@ -1798,7 +1804,8 @@ namespace YFSENSORS {
      * @param enable whether to reverse. eg: true
      */
     //% subcategory="RotaryEncoder"
-    //% blockId=YFSENSORS_rotaryEncoderSetReverse weight=20 blockGap=8
+    //% group="Basic"
+    //% blockId=YFSENSORS_rotaryEncoderSetReverse weight=104 blockGap=8
     //% block="reverse rotation direction %enable"
     //% enable.shadow="toggleOnOff"
     export function rotaryEncoderSetReverse(enable: boolean): void {
@@ -1811,7 +1818,8 @@ namespace YFSENSORS {
      * @param value the new count. eg: 0
      */
     //% subcategory="RotaryEncoder"
-    //% blockId=YFSENSORS_rotaryEncoderSetCount weight=19 blockGap=8
+    //% group="Advanced"
+    //% blockId=YFSENSORS_rotaryEncoderSetCount weight=103 blockGap=8
     //% block="set rotary encoder count to %value"
     export function rotaryEncoderSetCount(value: number): void {
         reStepCount = Math.round(value)
@@ -1823,7 +1831,8 @@ namespace YFSENSORS {
      * @param n states per detent. eg: 2
      */
     //% subcategory="RotaryEncoder"
-    //% blockId=YFSENSORS_rotaryEncoderSetPulsesPerDetent weight=18 blockGap=8
+    //% group="Advanced"
+    //% blockId=YFSENSORS_rotaryEncoderSetPulsesPerDetent weight=102 blockGap=8
     //% block="set pulses per detent to %n"
     //% n.min=1 n.max=8 n.defl=2
     export function rotaryEncoderSetPulsesPerDetent(n: number): void {

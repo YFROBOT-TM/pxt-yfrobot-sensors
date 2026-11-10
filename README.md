@@ -61,7 +61,8 @@ basic.showNumber(irButtonCode())
 ## 旋转编码器（二级标签：旋转编码器）
 
 EC11 类旋转编码器模块，micro:bit V1.5 / V2 通用（纯 TypeScript 实现）。
-接线：A(CLK)→P1、B(DT)→P2、V→3V、GND→GND；模块未引出按键（SW）引脚。
+标签内分 **基础 / 事件 / 高级** 三组；二级标签排序在 `电机驱动` 之前。
+接线：A(CLK)→P1、B(DT)→P0、V→3V、GND→GND；模块未引出按键（SW）引脚。
 
 * 连接并显示计数值
 
@@ -99,6 +100,7 @@ YFSENSORS.rotaryEncoderSetPulsesPerDetent(2)
 
 ## 版本
 
+* 0.3.1 「旋转编码器」标签内新增 基础 / 事件 / 高级 分组；二级标签排到「电机驱动」之前
 * 0.3.0 新增「旋转编码器」二级标签（EC11，转一格计 1 次，支持 V1.5 / V2）
 * 0.2.10 及以前：传感器 / 电机 / 数码管 / 红外等模块
 
